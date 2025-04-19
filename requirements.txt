@@ -1,0 +1,17 @@
+Bio==1.7.1
+biotite==1.2.0
+datasets==3.5.0
+matplotlib==3.10.1
+medmnist==3.0.2
+nltk==3.9.1
+numpy==2.2.4
+pandas==2.2.3
+protobuf==4.25.3
+scikit_learn==1.6.1
+scipy==1.15.2
+seaborn==0.13.2
+timm==1.0.15
+torch==2.6.0
+torchvision==0.21.0
+tqdm==4.66.5
+transformers==4.51.3

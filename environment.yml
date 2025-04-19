@@ -1,0 +1,26 @@
+name: representation-learning
+channels:
+  - conda-forge
+  - defaults
+  - https://repo.anaconda.com/pkgs/main
+  - https://repo.anaconda.com/pkgs/r
+dependencies:
+  - python==3.13
+  - biopython
+  - biotite
+  - datasets
+  - matplotlib
+  - nltk
+  - numpy
+  - pandas
+  - protobuf
+  - pytorch
+  - scikit-learn
+  - scipy
+  - seaborn
+  - timm
+  - torchvision
+  - tqdm
+  - transformers
+  - jupyter
+prefix: /opt/homebrew/anaconda3/envs/representation-learning
