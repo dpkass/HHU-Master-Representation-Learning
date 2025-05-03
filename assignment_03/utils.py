@@ -190,7 +190,7 @@ def linear_eval(model, optimizer, num_epochs, train_loader, val_loader, device):
                   'model_state_dict': model.state_dict(),
                   'optimizer_state_dict': optimizer.state_dict(),
                   'loss': val_loss,
-                  }, f'best_head_min_val_loss.pth')
+                  }, f'./models/best_head_min_val_loss.pth')
         
         if val_acc > best_val_acc:
             best_val_acc = val_acc
@@ -199,7 +199,7 @@ def linear_eval(model, optimizer, num_epochs, train_loader, val_loader, device):
                   'model_state_dict': model.state_dict(),
                   'optimizer_state_dict': optimizer.state_dict(),
                   'loss': val_loss,
-                  }, f'best_head_max_val_acc.pth')
+                  }, f'./models/best_head_max_val_acc.pth')
     return dict_log
 
 
