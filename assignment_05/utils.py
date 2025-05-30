@@ -1,19 +1,14 @@
-
-import os
+import numpy as np
+import matplotlib.pyplot as plt
 import numpy as np
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
-from torch.utils.data import DataLoader, Dataset
 import torchvision
-import torchvision.transforms as transforms
-import torch.optim as optim
-import torch.utils.data as data
-import random
-import matplotlib.pyplot as plt
-from torchvision import transforms as T
-from tqdm import tqdm
 from sklearn.manifold import TSNE
+from torch.utils.data import DataLoader
+from torchvision import transforms as T
+from tqdm.auto import tqdm
+
 
 def load_data( batch_size=128, train_split="unlabeled", test_split="test", transf = T.ToTensor(), num_workers=2, shuffle=False):
     train_ds = torchvision.datasets.STL10(root='../data', split=train_split, transform=transf, download=True)
@@ -155,7 +150,7 @@ def linear_eval(model, optimizer, num_epochs, train_loader, val_loader, device):
                   'model_state_dict': model.state_dict(),
                   'optimizer_state_dict': optimizer.state_dict(),
                   'loss': val_loss,
-                  }, f'best_head_min_val_loss.pth')
+                  }, f'./models/best_head_min_val_loss.pth')
         
         if val_acc > best_val_acc:
             best_val_acc = val_acc
@@ -164,7 +159,7 @@ def linear_eval(model, optimizer, num_epochs, train_loader, val_loader, device):
                   'model_state_dict': model.state_dict(),
                   'optimizer_state_dict': optimizer.state_dict(),
                   'loss': val_loss,
-                  }, f'best_head_max_val_acc.pth')
+                  }, f'./models/best_head_max_val_acc.pth')
     return dict_log
 
 
@@ -223,7 +218,7 @@ def tsne_plot_embeddings(features, labels, class_names, title="T-SNE plot"):
 
     plt.gca().axes.get_yaxis().set_visible(False)
     plt.gca().axes.get_xaxis().set_visible(False)
-    plt.savefig("tsne_plot_embeddings_solution.png")
+    plt.savefig("./figs/tsne_plot_embeddings_solution.png")
     plt.show()
 
 # based on https://github.com/elad-amrani/self-classifier/blob/e5e3fb98d71bd6961031bbd308826017fd9753ec/src/cls_eval.py
