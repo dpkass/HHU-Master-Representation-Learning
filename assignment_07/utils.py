@@ -2,7 +2,7 @@ import numpy as np
 import torch
 from sklearn.metrics import roc_auc_score
 from torch import nn
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 @torch.no_grad()
 def get_features(model, dataloader, device):
@@ -45,7 +45,7 @@ def validate(model, val_loader, device):
             correct += (predicted == labels).sum()
             loss_step.append(val_loss.item())
         # dont forget to take the means here
-        val_acc = (100 * correct / total).cpu().numpy() 
+        val_acc = (100 * correct / total).cpu().numpy()
         val_loss_epoch = torch.tensor(loss_step).mean().numpy()
         return val_acc , val_loss_epoch
 
@@ -93,7 +93,7 @@ def linear_eval(model, optimizer, num_epochs, train_loader, val_loader, device, 
         dict_log["val_acc_epoch"].append(val_acc)
         dict_log["loss_epoch"].append(loss_curr_epoch)
         dict_log["val_loss"].append(val_loss)
-        
+
         if train_acc > best_acc:
             best_acc = train_acc
             torch.save({
@@ -105,7 +105,7 @@ def linear_eval(model, optimizer, num_epochs, train_loader, val_loader, device, 
     return dict_log
 
 def load_model(path, device):
-    checkpoint = torch.load(path)
+    checkpoint = torch.load(path, weights_only=False)
     model = checkpoint['model'].eval().to(device)
     print(f"Model {path} is loaded from epoch {checkpoint['epoch']}")
     return model
