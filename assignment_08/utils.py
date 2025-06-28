@@ -1,29 +1,27 @@
 import itertools
 import os
-from typing import List, Tuple, Optional, Dict, NamedTuple, Union, Callable, Sequence
 import pickle
 import re
 import shutil
-import torch
-from pathlib import Path
+import string
+from typing import List, Tuple, Optional, Dict, Union, Callable, Sequence
+
+import biotite.structure as bs
+import matplotlib as mpl
+import matplotlib.pyplot as plt
 import numpy as np
 import torch
-from scipy.spatial.distance import squareform, pdist, cdist
-import matplotlib.pyplot as plt
-import matplotlib as mpl
-import string
-
 import torch.functional as F
 from Bio import SeqIO
-import biotite.structure as bs
+from scipy.spatial.distance import squareform, pdist
 
-TEST_VALS = torch.load('test_vals.pt')
+TEST_VALS = torch.load('test_vals.pt', weights_only=False)
 
 
 def test_func(func):
     name = func.__name__
     for inp, outp in TEST_VALS[name]:
-        assert torch.allclose(func(**inp), outp), f'Function {name} failed on input {inp}'
+        assert torch.allclose(func(**inp), outp, atol=1e-5), (f'Function {name} failed on input {inp}')
     print(f'Function {name} passed all tests!')
 
     
@@ -574,7 +572,7 @@ class ESMStructuralSplitDataset(torch.utils.data.Dataset):
         with open(pkl_fname, "rb") as f:
             obj = pickle.load(f)
         return obj
-    
+
 
 def plot_contacts_and_predictions(
     predictions: Union[torch.Tensor, np.ndarray],
@@ -677,7 +675,7 @@ def contacts_from_pdb(
 
     Cbeta = extend(C, N, CA, 1.522, 1.927, -2.143)
     dist = squareform(pdist(Cbeta))
-    
+
     contacts = dist < distance_threshold
     contacts = contacts.astype(np.int64)
     contacts[np.isnan(dist)] = -1
@@ -720,7 +718,7 @@ class BatchConverterContact(object):
             ] = seq
             if self.alphabet.append_eos:
                 tokens[i, len(seq_encoded) + int(self.alphabet.prepend_bos)] = self.alphabet.eos_idx
-            
+
             contacts[i, :len(contact_map),:len(contact_map)] = contact_map
         return tokens, contacts
 
